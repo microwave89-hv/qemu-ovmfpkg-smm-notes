@@ -1,1 +1,25 @@
-gkfhf
+cd <qemu_repo_path>/ (e.g. for my setup: "<private>/tools/qemu/")
+
+In <qemu_repo_path>/target-i386/smm_helper.c look for line:
+  void do_smm_enter(X86CPU *cpu)
+and add below:
+  printf("do_smm_enter()\n");
+
+In <qemu_repo_path>/target-i386/smm_helper.c look for line:
+  void helper_rsm(CPUX86State *env)
+and scroll down to function end, and add this above:
+  printf("helper_rsm(): \"}\"\n");
+
+In <qemu_repo_path>/target-i386/misc_helper.c look for line:
+  void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
+and add below:
+  printf("helper_outw(): port = 0x%04x, data = %04x\n", port, data);
+
+In Terminal make sure working directory is <qemu_repo_path>/ and enter:
+  make
+
+  ./x86_64-softmmu/qemu-system-x86_64 -d in_asm,nochain -D ./logfile.log -no-kvm -cpu core2duo -machine q35,smm=on,accel=tcg -m size=$((4096*1024))k -global driver=cfi.pflash01,property=secure,value=on -drive if=pflash,format=raw,unit=0,file=OVMF_CODE.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=OVMF_VARS.fd > /dev/ttys001
+
+
+A lot of 'helper_outw()', 'do_smm_enter()', 'helper_rsm(): "}"' entries should show up in a Terminal and after a few minutes "UEFI Interactive Shell v2.2" should appear in QEMU window and the shell should be really interactive in QEMU!
+

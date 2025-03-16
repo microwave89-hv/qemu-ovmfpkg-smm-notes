@@ -20,7 +20,7 @@ In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf look for line:
 and remove all assembly file entries ending in .S and .asm keeping only those ending in .nasm
 
 In Terminal make sure working directory is <udk2017_path>/OvmfPkg and enter:
-./build.sh
+  ./build.sh
 
 
 Instructions below "ASM_PFX(gcSmmInitTemplate):" in "<udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/X64/SmmInit.nasm"

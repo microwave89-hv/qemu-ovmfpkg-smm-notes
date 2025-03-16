@@ -1,0 +1,19 @@
+qEmu stable 2.5.1.1
+??
+
+UDK v2017
+git clone --recursive --branch UDK2017 https://github.com/tianocore/edk2.git
+git checkout tags/vUDK2017 -b vUDK2017
+
+mtoc 949.0.1
+(??)
+
+NASM version 2.14.02 compiled on Dec 27 2018
+(??)
+
+iasl 20201113
+brew install acpica
+
+Xcode 10.1 Build version 10B61
+(????)
+

@@ -1,25 +1,25 @@
 cd <udk2017_path>/OvmfPkg (e.g. for my setup: "<private>/tools/edk2-env2/OvmfPkg/")
 
-In build.sh find line:
+In build.sh look for line:
   build -p $PLATFORMFILE $BUILD_OPTIONS -b $BUILDTARGET -t $TARGET_TOOLS -n $THREADNUMBER
 and add below:
   cp -f --verbose $FV_DIR/OVMF_CODE.fd $WORKSPACE/../qemu/
   cp -f --verbose $FV_DIR/OVMF_VARS.fd $WORKSPACE/../qemu/
 
-In OvmfPkgIa32X64.dsc find line:
+In OvmfPkgIa32X64.dsc look for line:
   DEFINE_SMM_REQUIRE = FALSE
 and modify to:
   DEFINE_SMM_REQUIRE = TRUE
 
-In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf find:
+In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf look for line:
   [Sources.Ia32]
 and remove all child entries (no 32 bits support is needed anymore)
 
-In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf find:
+In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf look for line:
   [Sources.X64]
 and remove all assembly file entries ending in .S and .asm keeping only those ending in .nasm
 
-cd <udk2017_path>/OvmfPkg (e.g. for my setup: "<private>/tools/edk2-env2/OvmfPkg/")
+In Terminal make sure working directory is <udk2017_path>/OvmfPkg and enter:
 ./build.sh
 
 

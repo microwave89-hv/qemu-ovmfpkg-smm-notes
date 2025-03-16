@@ -1,0 +1,27 @@
+cd <udk2017_path>/OvmfPkg (e.g. for my setup: "<private>/tools/edk2-env2/OvmfPkg/")
+
+In build.sh find line:
+  build -p $PLATFORMFILE $BUILD_OPTIONS -b $BUILDTARGET -t $TARGET_TOOLS -n $THREADNUMBER
+and add below:
+  cp -f --verbose $FV_DIR/OVMF_CODE.fd $WORKSPACE/../qemu/
+  cp -f --verbose $FV_DIR/OVMF_VARS.fd $WORKSPACE/../qemu/
+
+In OvmfPkgIa32X64.dsc find line:
+  DEFINE_SMM_REQUIRE = FALSE
+and modify to:
+  DEFINE_SMM_REQUIRE = TRUE
+
+In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf find:
+  [Sources.Ia32]
+and remove all child entries (no 32 bits support is needed anymore)
+
+In <udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm.inf find:
+  [Sources.X64]
+and remove all assembly file entries ending in .S and .asm keeping only those ending in .nasm
+
+cd <udk2017_path>/OvmfPkg (e.g. for my setup: "<private>/tools/edk2-env2/OvmfPkg/")
+./build.sh
+
+
+Instructions below "ASM_PFX(gcSmmInitTemplate):" in "<udk2017_path>/UefiCpuPkg/PiSmmCpuDxeSmm/X64/SmmInit.nasm"
+are (some of?) the first instructions that are executed when entering SMM first time.
